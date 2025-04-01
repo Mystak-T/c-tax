@@ -36,7 +36,7 @@
   </div>
 
   <label for="profit">当期純利益（円）:</label>
-  <input type="number" id="profit" placeholder="例：1,500,000"><br>
+  <input type="text" id="profit" placeholder="例：1,500,000" onblur="formatInput(this)"><br>
 
   <button onclick="calculateTax()">税額を試算する</button>
   <div class="link">
@@ -57,6 +57,13 @@
     function getSetting(id, fallback = 0) {
       const val = localStorage.getItem(id);
       return parseFormattedNumber(val ?? fallback);
+    }
+
+    function formatInput(input) {
+      const value = parseFormattedNumber(input.value);
+      if (!isNaN(value)) {
+        input.value = format(value);
+      }
     }
 
     function calculateTax() {
