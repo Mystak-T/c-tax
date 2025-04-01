@@ -9,27 +9,28 @@
     h1 { color: #333; }
     input, button { padding: 10px; margin: 10px 0; font-size: 1rem; }
     .result { background: #fff; padding: 1em; border-radius: 5px; }
-    .note { margin-top: 1em; font-size: 0.9rem; color: #555; background: #fff; padding: 1em; border-radius: 5px; }
+    .note, .settings { background: #fff; padding: 1em; border-radius: 5px; margin-top: 1em; font-size: 0.9rem; color: #555; }
+    label { display: block; margin-top: 10px; }
   </style>
 </head>
 <body>
   <h1>法人税金 試算フォーム</h1>
-  <label for="profit">当期純利益（円）:</label><br>
+  <label for="profit">当期純利益（円）:</label>
   <input type="number" id="profit" placeholder="例：1500000"><br>
-  <button onclick="calculateTax()">税額を試算する</button>
 
-  <div class="note">
-    <strong>※ 税額計算の前提条件：</strong>
-    <ul>
-      <li>法人税：15％</li>
-      <li>地方法人税：法人税額の10.3％</li>
-      <li>法人市民税：法人税額の6％ ＋ 均等割50,000円</li>
-      <li>法人県民税：法人税額の1％ ＋ 均等割21,000円</li>
-      <li>法人事業税：3.5％</li>
-      <li>特別法人事業税：法人事業税額の37％</li>
-    </ul>
-    ※ 実際の税額は地域・業種・控除により異なる場合があります。
+  <div class="settings">
+    <strong>税率設定（変更可能）:</strong>
+    <label>法人税率（%）<input type="number" id="corpTaxRate" value="15"></label>
+    <label>地方法人税率（%）<input type="number" id="localCorpTaxRate" value="10.3"></label>
+    <label>法人市民税率（%）<input type="number" id="cityTaxRate" value="6"></label>
+    <label>法人県民税率（%）<input type="number" id="prefectureTaxRate" value="1"></label>
+    <label>法人市民税均等割（円）<input type="number" id="cityFixed" value="50000"></label>
+    <label>法人県民税均等割（円）<input type="number" id="prefectureFixed" value="21000"></label>
+    <label>法人事業税率（%）<input type="number" id="businessTaxRate" value="3.5"></label>
+    <label>特別法人事業税率（%）<input type="number" id="specialBusinessTaxRate" value="37"></label>
   </div>
+
+  <button onclick="calculateTax()">税額を試算する</button>
 
   <div class="result" id="output"></div>
 
@@ -41,14 +42,21 @@
         return;
       }
 
-      const corpTax = profit * 0.15;
-      const localCorpTax = corpTax * 0.103;
-      const cityTaxRate = 0.06;
-      const prefectureTaxRate = 0.01;
-      const businessTax = profit * 0.035;
-      const specialBusinessTax = businessTax * 0.37;
-      const cityTax = corpTax * cityTaxRate + 50000;
-      const prefectureTax = corpTax * prefectureTaxRate + 21000;
+      const corpTaxRate = parseFloat(document.getElementById('corpTaxRate').value) / 100;
+      const localCorpTaxRate = parseFloat(document.getElementById('localCorpTaxRate').value) / 100;
+      const cityTaxRate = parseFloat(document.getElementById('cityTaxRate').value) / 100;
+      const prefectureTaxRate = parseFloat(document.getElementById('prefectureTaxRate').value) / 100;
+      const cityFixed = parseFloat(document.getElementById('cityFixed').value);
+      const prefectureFixed = parseFloat(document.getElementById('prefectureFixed').value);
+      const businessTaxRate = parseFloat(document.getElementById('businessTaxRate').value) / 100;
+      const specialBusinessTaxRate = parseFloat(document.getElementById('specialBusinessTaxRate').value) / 100;
+
+      const corpTax = profit * corpTaxRate;
+      const localCorpTax = corpTax * localCorpTaxRate;
+      const businessTax = profit * businessTaxRate;
+      const specialBusinessTax = businessTax * specialBusinessTaxRate;
+      const cityTax = corpTax * cityTaxRate + cityFixed;
+      const prefectureTax = corpTax * prefectureTaxRate + prefectureFixed;
 
       const totalTax = corpTax + localCorpTax + cityTax + prefectureTax + businessTax + specialBusinessTax;
 
