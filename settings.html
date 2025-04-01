@@ -42,6 +42,9 @@
       });
 
       document.getElementById('notice').textContent = "設定を保存しました！";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000);
     }
 
     function loadSettings() {
