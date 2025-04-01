@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>税率設定 - 法人税金試算</title>
+  <link href="https://cdn.jsdelivr.net/npm/sanitize.css" rel="stylesheet">
+  <style>
+    body { font-family: sans-serif; padding: 2em; background: #f9f9f9; }
+    h1 { color: #333; }
+    label { display: block; margin-top: 15px; }
+    input { padding: 8px; font-size: 1rem; width: 150px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 1rem; cursor: pointer; }
+    .notice { margin-top: 1em; color: green; }
+  </style>
+</head>
+<body>
+  <h1>税率設定</h1>
+  <form id="settingsForm">
+    <label>法人税率（%）<input type="number" id="corpTaxRate" step="0.1"></label>
+    <label>地方法人税率（%）<input type="number" id="localCorpTaxRate" step="0.1"></label>
+    <label>法人市民税率（%）<input type="number" id="cityTaxRate" step="0.1"></label>
+    <label>法人県民税率（%）<input type="number" id="prefectureTaxRate" step="0.1"></label>
+    <label>法人市民税均等割（円）<input type="text" id="cityFixed"></label>
+    <label>法人県民税均等割（円）<input type="text" id="prefectureFixed"></label>
+    <label>法人事業税率（%）<input type="number" id="businessTaxRate" step="0.1"></label>
+    <label>特別法人事業税率（%）<input type="number" id="specialBusinessTaxRate" step="0.1"></label>
+    <button type="button" onclick="saveSettings()">設定を保存</button>
+    <div class="notice" id="notice"></div>
+  </form>
+
+  <script>
+    function saveSettings() {
+      const fields = [
+        'corpTaxRate', 'localCorpTaxRate', 'cityTaxRate', 'prefectureTaxRate',
+        'cityFixed', 'prefectureFixed', 'businessTaxRate', 'specialBusinessTaxRate'
+      ];
+
+      fields.forEach(id => {
+        const value = document.getElementById(id).value;
+        localStorage.setItem(id, value);
+      });
+
+      document.getElementById('notice').textContent = "設定を保存しました！";
+    }
+
+    function loadSettings() {
+      const fields = [
+        { id: 'corpTaxRate', def: '15' },
+        { id: 'localCorpTaxRate', def: '10.3' },
+        { id: 'cityTaxRate', def: '6' },
+        { id: 'prefectureTaxRate', def: '1' },
+        { id: 'cityFixed', def: '50,000' },
+        { id: 'prefectureFixed', def: '21,000' },
+        { id: 'businessTaxRate', def: '3.5' },
+        { id: 'specialBusinessTaxRate', def: '37' }
+      ];
+
+      fields.forEach(({ id, def }) => {
+        document.getElementById(id).value = localStorage.getItem(id) || def;
+      });
+    }
+
+    window.onload = loadSettings;
+  </script>
+</body>
+</html>
