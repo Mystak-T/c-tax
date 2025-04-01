@@ -7,7 +7,19 @@
   <link href="https://cdn.jsdelivr.net/npm/sanitize.css" rel="stylesheet">
   <style>
     body { font-family: sans-serif; padding: 2em; background: #f4f4f4; text-align: center; }
-    h1 { color: #333; }
+    h1 {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      background: linear-gradient(to right, #6dd5ed, #2193b0);
+      color: white;
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
     input, button { padding: 10px; margin: 10px 0; font-size: 1rem; width: 300px; max-width: 90%; }
     .result { background: #fff; padding: 1em; border-radius: 5px; display: inline-block; text-align: left; margin-top: 1em; }
     label { display: block; margin-top: 10px; text-align: left; max-width: 300px; margin-left: auto; margin-right: auto; }
@@ -17,7 +29,7 @@
   </style>
 </head>
 <body>
-  <h1>法人税金 試算フォーム</h1>
+  <h1>📊 法人税 試算アプリ 💼</h1>
 
   <div class="image-container">
     <img src="zeikin.png" alt="税のデンプシーロール">
