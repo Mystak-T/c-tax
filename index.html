@@ -10,41 +10,27 @@
     h1 { color: #333; }
     input, button { padding: 10px; margin: 10px 0; font-size: 1rem; }
     .result { background: #fff; padding: 1em; border-radius: 5px; }
-    .note, .settings { background: #fff; padding: 1em; border-radius: 5px; margin-top: 1em; font-size: 0.9rem; color: #555; }
+    .note { background: #fff; padding: 1em; border-radius: 5px; margin-top: 1em; font-size: 0.9rem; color: #555; }
     label { display: block; margin-top: 10px; }
-    .flex-container { display: flex; align-items: flex-start; gap: 2em; flex-wrap: wrap; }
+    .image-container { text-align: center; margin: 1em 0; }
     .image-container img { width: 200px; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+    .link { margin-top: 1em; font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <h1>法人税金 試算フォーム</h1>
 
+  <div class="image-container">
+    <img src="zeikin.png" alt="税のデンプシーロール">
+  </div>
+
   <label for="profit">当期純利益（円）:</label>
   <input type="number" id="profit" placeholder="例：1,500,000"><br>
 
-  <div class="flex-container">
-    <div class="settings">
-      <strong>税率設定（変更可能）:</strong>
-      <label>法人税率（%）<input type="number" id="corpTaxRate" value="15"></label>
-      <label>地方法人税率（%）<input type="number" id="localCorpTaxRate" value="10.3"></label>
-      <label>法人市民税率（%）<input type="number" id="cityTaxRate" value="6"></label>
-      <label>法人県民税率（%）<input type="number" id="prefectureTaxRate" value="1"></label>
-      <label>法人市民税均等割（円）<input type="text" id="cityFixed" value="50,000"></label>
-      <label>法人県民税均等割（円）<input type="text" id="prefectureFixed" value="21,000"></label>
-      <label>法人事業税率（%）<input type="number" id="businessTaxRate" value="3.5"></label>
-      <label>特別法人事業税率（%）<input type="number" id="specialBusinessTaxRate" value="37"></label>
-    </div>
-    <div class="image-container">
-      <img src="zeikin.png" alt="税のデンプシーロール">
-    </div>
-  </div>
-
   <button onclick="calculateTax()">税額を試算する</button>
+  <div class="link">
+    👉 <a href="settings.html">税率の設定はこちら</a>
+  </div>
 
   <div class="result" id="output"></div>
 
@@ -57,6 +43,11 @@
       return parseFloat(str.replace(/,/g, '')) || 0;
     }
 
+    function getSetting(id, fallback = 0) {
+      const val = localStorage.getItem(id);
+      return parseFormattedNumber(val ?? fallback);
+    }
+
     function calculateTax() {
       const profit = parseFormattedNumber(document.getElementById('profit').value);
       if (isNaN(profit) || profit <= 0) {
@@ -64,14 +55,14 @@
         return;
       }
 
-      const corpTaxRate = parseFloat(document.getElementById('corpTaxRate').value) / 100;
-      const localCorpTaxRate = parseFloat(document.getElementById('localCorpTaxRate').value) / 100;
-      const cityTaxRate = parseFloat(document.getElementById('cityTaxRate').value) / 100;
-      const prefectureTaxRate = parseFloat(document.getElementById('prefectureTaxRate').value) / 100;
-      const cityFixed = parseFormattedNumber(document.getElementById('cityFixed').value);
-      const prefectureFixed = parseFormattedNumber(document.getElementById('prefectureFixed').value);
-      const businessTaxRate = parseFloat(document.getElementById('businessTaxRate').value) / 100;
-      const specialBusinessTaxRate = parseFloat(document.getElementById('specialBusinessTaxRate').value) / 100;
+      const corpTaxRate = getSetting('corpTaxRate', 15) / 100;
+      const localCorpTaxRate = getSetting('localCorpTaxRate', 10.3) / 100;
+      const cityTaxRate = getSetting('cityTaxRate', 6) / 100;
+      const prefectureTaxRate = getSetting('prefectureTaxRate', 1) / 100;
+      const cityFixed = getSetting('cityFixed', 50000);
+      const prefectureFixed = getSetting('prefectureFixed', 21000);
+      const businessTaxRate = getSetting('businessTaxRate', 3.5) / 100;
+      const specialBusinessTaxRate = getSetting('specialBusinessTaxRate', 37) / 100;
 
       const corpTax = profit * corpTaxRate;
       const localCorpTax = corpTax * localCorpTaxRate;
