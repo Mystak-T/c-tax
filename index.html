@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>法人税金試算フォーム</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; background: #f4f4f4; }
+    h1 { color: #333; }
+    input, button { padding: 10px; margin: 10px 0; font-size: 1rem; }
+    .result { background: #fff; padding: 1em; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>法人税金 試算フォーム</h1>
+  <label for="profit">当期純利益（円）:</label><br>
+  <input type="number" id="profit" placeholder="例：1500000"><br>
+  <button onclick="calculateTax()">税額を試算する</button>
+
+  <div class="result" id="output"></div>
+
+  <script>
+    function calculateTax() {
+      const profit = parseFloat(document.getElementById('profit').value);
+      if (isNaN(profit) || profit <= 0) {
+        document.getElementById('output').innerHTML = "正しい金額を入力してください。";
+        return;
+      }
+
+      const corpTax = profit * 0.15;
+      const localCorpTax = corpTax * 0.103;
+      const cityTaxRate = 0.06;
+      const prefectureTaxRate = 0.01;
+      const businessTax = profit * 0.035;
+      const specialBusinessTax = businessTax * 0.37;
+      const cityTax = corpTax * cityTaxRate + 50000;
+      const prefectureTax = corpTax * prefectureTaxRate + 21000;
+
+      const totalTax = corpTax + localCorpTax + cityTax + prefectureTax + businessTax + specialBusinessTax;
+
+      document.getElementById('output').innerHTML = `
+        <h2>試算結果</h2>
+        <ul>
+          <li>法人税: ${Math.round(corpTax).toLocaleString()}円</li>
+          <li>地方法人税: ${Math.round(localCorpTax).toLocaleString()}円</li>
+          <li>法人市民税: ${Math.round(cityTax).toLocaleString()}円</li>
+          <li>法人県民税: ${Math.round(prefectureTax).toLocaleString()}円</li>
+          <li>法人事業税: ${Math.round(businessTax).toLocaleString()}円</li>
+          <li>特別法人事業税: ${Math.round(specialBusinessTax).toLocaleString()}円</li>
+          <li><strong>合計税額: ${Math.round(totalTax).toLocaleString()}円</strong></li>
+        </ul>
+      `;
+    }
+  </script>
+</body>
+</html>
