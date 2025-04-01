@@ -9,6 +9,7 @@
     h1 { color: #333; }
     input, button { padding: 10px; margin: 10px 0; font-size: 1rem; }
     .result { background: #fff; padding: 1em; border-radius: 5px; }
+    .note { margin-top: 1em; font-size: 0.9rem; color: #555; background: #fff; padding: 1em; border-radius: 5px; }
   </style>
 </head>
 <body>
@@ -16,6 +17,19 @@
   <label for="profit">当期純利益（円）:</label><br>
   <input type="number" id="profit" placeholder="例：1500000"><br>
   <button onclick="calculateTax()">税額を試算する</button>
+
+  <div class="note">
+    <strong>※ 税額計算の前提条件：</strong>
+    <ul>
+      <li>法人税：15％</li>
+      <li>地方法人税：法人税額の10.3％</li>
+      <li>法人市民税：法人税額の6％ ＋ 均等割50,000円</li>
+      <li>法人県民税：法人税額の1％ ＋ 均等割21,000円</li>
+      <li>法人事業税：3.5％</li>
+      <li>特別法人事業税：法人事業税額の37％</li>
+    </ul>
+    ※ 実際の税額は地域・業種・控除により異なる場合があります。
+  </div>
 
   <div class="result" id="output"></div>
 
