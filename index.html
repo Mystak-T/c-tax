@@ -12,15 +12,17 @@
     .result { background: #fff; padding: 1em; border-radius: 5px; }
     .note, .settings { background: #fff; padding: 1em; border-radius: 5px; margin-top: 1em; font-size: 0.9rem; color: #555; }
     label { display: block; margin-top: 10px; }
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+    .image-container { text-align: center; margin: 2em 0; }
+    .image-container img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
   </style>
 </head>
 <body>
   <h1>法人税金 試算フォーム</h1>
+
+  <div class="image-container">
+    <img src="zeikin.png" alt="税のデンプシーロール">
+  </div>
+
   <label for="profit">当期純利益（円）:</label>
   <input type="number" id="profit" placeholder="例：1,500,000"><br>
 
