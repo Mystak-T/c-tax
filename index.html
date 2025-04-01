@@ -12,12 +12,17 @@
     .result { background: #fff; padding: 1em; border-radius: 5px; }
     .note, .settings { background: #fff; padding: 1em; border-radius: 5px; margin-top: 1em; font-size: 0.9rem; color: #555; }
     label { display: block; margin-top: 10px; }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
   <h1>法人税金 試算フォーム</h1>
   <label for="profit">当期純利益（円）:</label>
-  <input type="number" id="profit" placeholder="例：1500000"><br>
+  <input type="number" id="profit" placeholder="例：1,500,000"><br>
 
   <div class="settings">
     <strong>税率設定（変更可能）:</strong>
@@ -25,8 +30,8 @@
     <label>地方法人税率（%）<input type="number" id="localCorpTaxRate" value="10.3"></label>
     <label>法人市民税率（%）<input type="number" id="cityTaxRate" value="6"></label>
     <label>法人県民税率（%）<input type="number" id="prefectureTaxRate" value="1"></label>
-    <label>法人市民税均等割（円）<input type="number" id="cityFixed" value="50000"></label>
-    <label>法人県民税均等割（円）<input type="number" id="prefectureFixed" value="21000"></label>
+    <label>法人市民税均等割（円）<input type="text" id="cityFixed" value="50,000"></label>
+    <label>法人県民税均等割（円）<input type="text" id="prefectureFixed" value="21,000"></label>
     <label>法人事業税率（%）<input type="number" id="businessTaxRate" value="3.5"></label>
     <label>特別法人事業税率（%）<input type="number" id="specialBusinessTaxRate" value="37"></label>
   </div>
@@ -40,8 +45,12 @@
       return Math.round(num).toLocaleString();
     }
 
+    function parseFormattedNumber(str) {
+      return parseFloat(str.replace(/,/g, '')) || 0;
+    }
+
     function calculateTax() {
-      const profit = parseFloat(document.getElementById('profit').value);
+      const profit = parseFormattedNumber(document.getElementById('profit').value);
       if (isNaN(profit) || profit <= 0) {
         document.getElementById('output').innerHTML = "正しい金額を入力してください。";
         return;
@@ -51,8 +60,8 @@
       const localCorpTaxRate = parseFloat(document.getElementById('localCorpTaxRate').value) / 100;
       const cityTaxRate = parseFloat(document.getElementById('cityTaxRate').value) / 100;
       const prefectureTaxRate = parseFloat(document.getElementById('prefectureTaxRate').value) / 100;
-      const cityFixed = parseFloat(document.getElementById('cityFixed').value);
-      const prefectureFixed = parseFloat(document.getElementById('prefectureFixed').value);
+      const cityFixed = parseFormattedNumber(document.getElementById('cityFixed').value);
+      const prefectureFixed = parseFormattedNumber(document.getElementById('prefectureFixed').value);
       const businessTaxRate = parseFloat(document.getElementById('businessTaxRate').value) / 100;
       const specialBusinessTaxRate = parseFloat(document.getElementById('specialBusinessTaxRate').value) / 100;
 
