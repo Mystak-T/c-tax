@@ -26,7 +26,7 @@
     .image-container { display: flex; justify-content: center; margin: 1em 0; }
     .image-container img { width: 200px; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .link { margin-top: 1em; font-size: 0.9rem; text-align: center; }
-    ul li span.detail { display: block; font-size: 0.9em; color: #555; }
+    ul li span.detail-line { display: block; font-size: 0.9em; color: #555; margin-left: 1em; }
   </style>
 </head>
 <body>
@@ -100,13 +100,16 @@
         <h2>試算結果</h2>
         <ul>
           <li><strong>国へ納税:</strong> ${format(nationalTotal)}円
-            <span class="detail">法人税: ${format(corpTax)}円、地方法人税: ${format(localCorpTax)}円</span>
+            <span class="detail-line">法人税: ${format(corpTax)}円</span>
+            <span class="detail-line">地方法人税: ${format(localCorpTax)}円</span>
           </li>
           <li><strong>県へ納税:</strong> ${format(prefecturalTotal)}円
-            <span class="detail">法人県民税: ${format(prefectureTax)}円、法人事業税: ${format(businessTax)}円、特別法人事業税: ${format(specialBusinessTax)}円</span>
+            <span class="detail-line">法人県民税: ${format(prefectureTax)}円</span>
+            <span class="detail-line">法人事業税: ${format(businessTax)}円</span>
+            <span class="detail-line">特別法人事業税: ${format(specialBusinessTax)}円</span>
           </li>
           <li><strong>市へ納税:</strong> ${format(municipalTotal)}円
-            <span class="detail">法人市民税: ${format(cityTax)}円</span>
+            <span class="detail-line">法人市民税: ${format(cityTax)}円</span>
           </li>
           <li><strong>合計税額: ${format(totalTax)}円</strong></li>
         </ul>
