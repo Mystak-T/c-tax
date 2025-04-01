@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>法人税金試算フォーム</title>
+  <link href="https://cdn.jsdelivr.net/npm/sanitize.css" rel="stylesheet">
   <style>
     body { font-family: sans-serif; padding: 2em; background: #f4f4f4; }
     h1 { color: #333; }
@@ -35,6 +36,10 @@
   <div class="result" id="output"></div>
 
   <script>
+    function format(num) {
+      return Math.round(num).toLocaleString();
+    }
+
     function calculateTax() {
       const profit = parseFloat(document.getElementById('profit').value);
       if (isNaN(profit) || profit <= 0) {
@@ -63,19 +68,16 @@
       document.getElementById('output').innerHTML = `
         <h2>試算結果</h2>
         <ul>
-          <li>法人税: ${Math.round(corpTax).toLocaleString()}円</li>
-          <li>地方法人税: ${Math.round(localCorpTax).toLocaleString()}円</li>
-          <li>法人市民税: ${Math.round(cityTax).toLocaleString()}円</li>
-          <li>法人県民税: ${Math.round(prefectureTax).toLocaleString()}円</li>
-          <li>法人事業税: ${Math.round(businessTax).toLocaleString()}円</li>
-          <li>特別法人事業税: ${Math.round(specialBusinessTax).toLocaleString()}円</li>
-          <li><strong>合計税額: ${Math.round(totalTax).toLocaleString()}円</strong></li>
+          <li>法人税: ${format(corpTax)}円</li>
+          <li>地方法人税: ${format(localCorpTax)}円</li>
+          <li>法人市民税: ${format(cityTax)}円</li>
+          <li>法人県民税: ${format(prefectureTax)}円</li>
+          <li>法人事業税: ${format(businessTax)}円</li>
+          <li>特別法人事業税: ${format(specialBusinessTax)}円</li>
+          <li><strong>合計税額: ${format(totalTax)}円</strong></li>
         </ul>
       `;
     }
   </script>
-
-  <link href="https://cdn.jsdelivr.net/npm/sanitize.css" rel="stylesheet">
-  
 </body>
 </html>
