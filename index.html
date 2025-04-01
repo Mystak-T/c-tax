@@ -103,6 +103,11 @@
           <li><strong>合計税額: ${format(totalTax)}円</strong></li>
         </ul>
       `;
+
+      // スクロールして試算結果まで表示
+      setTimeout(() => {
+        document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   </script>
 </body>
