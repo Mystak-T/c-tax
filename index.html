@@ -89,22 +89,22 @@
       const cityTax = corpTax * cityTaxRate + cityFixed;
       const prefectureTax = corpTax * prefectureTaxRate + prefectureFixed;
 
-      const totalTax = corpTax + localCorpTax + cityTax + prefectureTax + businessTax + specialBusinessTax;
+      const nationalTotal = corpTax + localCorpTax;
+      const prefecturalTotal = prefectureTax + businessTax + specialBusinessTax;
+      const municipalTotal = cityTax;
+
+      const totalTax = nationalTotal + prefecturalTotal + municipalTotal;
 
       document.getElementById('output').innerHTML = `
         <h2>試算結果</h2>
         <ul>
-          <li>法人税: ${format(corpTax)}円</li>
-          <li>地方法人税: ${format(localCorpTax)}円</li>
-          <li>法人市民税: ${format(cityTax)}円</li>
-          <li>法人県民税: ${format(prefectureTax)}円</li>
-          <li>法人事業税: ${format(businessTax)}円</li>
-          <li>特別法人事業税: ${format(specialBusinessTax)}円</li>
+          <li><strong>国へ納税:</strong> ${format(nationalTotal)}円（法人税: ${format(corpTax)}円、地方法人税: ${format(localCorpTax)}円）</li>
+          <li><strong>県へ納税:</strong> ${format(prefecturalTotal)}円（法人県民税: ${format(prefectureTax)}円、法人事業税: ${format(businessTax)}円、特別法人事業税: ${format(specialBusinessTax)}円）</li>
+          <li><strong>市へ納税:</strong> ${format(municipalTotal)}円（法人市民税: ${format(cityTax)}円）</li>
           <li><strong>合計税額: ${format(totalTax)}円</strong></li>
         </ul>
       `;
 
-      // スクロールして試算結果まで表示
       setTimeout(() => {
         document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
       }, 100);
